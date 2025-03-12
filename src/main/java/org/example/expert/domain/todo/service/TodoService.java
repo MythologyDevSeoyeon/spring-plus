@@ -53,26 +53,14 @@ public class TodoService {
     public Page<TodoResponse> getTodos(int page, int size, String weather, LocalDateTime startDate, LocalDateTime endDate) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Page<Todo> todos;
-
-        // 전체 조회
-        todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
-
-        // 날씨 조건 필터링
-        if (weather != null && !weather.isEmpty()) {
-            todos = todoRepository.findAllByWeather(pageable, weather);
+        if (startDate == null) {
+            startDate = LocalDateTime.of(1, 1, 1, 0, 0);
+        }
+        if (endDate == null) {
+            endDate = LocalDateTime.of(9999, 12, 31, 23, 59);
         }
 
-        // 날씨 + 날짜 조건 필터링
-        if (startDate != null || endDate != null) {
-            if (startDate == null) {
-                startDate = LocalDateTime.of(1900, 1, 1, 0, 0);
-            }
-            if (endDate == null) {
-                endDate = LocalDateTime.of(9999, 12, 31, 23, 59);
-            }
-            todos = todoRepository.findAllBetweenDate(pageable, weather, startDate, endDate);
-        }
+        Page<Todo> todos = todoRepository.findTodos(pageable, weather, startDate, endDate);
 
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),

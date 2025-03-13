@@ -38,3 +38,6 @@ out/
 
 ### properties ###
 *.properties
+
+### Qclass ###
+/src/main/generated/

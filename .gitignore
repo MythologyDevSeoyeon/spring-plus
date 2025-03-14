@@ -38,3 +38,11 @@ out/
 
 ### properties ###
 *.properties
+
+### Qclass ###
+/src/main/generated/
+
+### Gradle Wrapper 관련 파일 ###
+gradlew
+gradlew.bat
+gradle/wrapper/gradle-wrapper.jar

@@ -7,6 +7,7 @@ import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -52,13 +53,8 @@ public class TodoService {
     @Transactional(readOnly = true)
     public Page<TodoResponse> getTodos(int page, int size, String weather, LocalDateTime startDate, LocalDateTime endDate) {
         Pageable pageable = PageRequest.of(page - 1, size);
-
-        if (startDate == null) {
-            startDate = LocalDateTime.of(1, 1, 1, 0, 0);
-        }
-        if (endDate == null) {
-            endDate = LocalDateTime.of(9999, 12, 31, 23, 59);
-        }
+        startDate = resolveStartDate(startDate);
+        endDate = resolveEndDate(endDate);
 
         Page<Todo> todos = todoRepository.findTodos(pageable, weather, startDate, endDate);
 
@@ -89,5 +85,23 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<TodoSearchResponse> searchTodos(int page, int size, String keyword, String nickname, LocalDateTime startDate, LocalDateTime endDate) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        startDate = resolveStartDate(startDate);
+        endDate = resolveEndDate(endDate);
+
+       return todoRepository.searchTodos(pageable, keyword, nickname, startDate, endDate);
+
+    }
+
+    private LocalDateTime resolveStartDate(LocalDateTime startDate){
+        return startDate != null ? startDate : LocalDateTime.of(1, 1, 1, 0, 0);
+    }
+
+    private LocalDateTime resolveEndDate(LocalDateTime endDate){
+        return endDate != null ? endDate : LocalDateTime.of(9999, 12, 31, 23, 59);
     }
 }

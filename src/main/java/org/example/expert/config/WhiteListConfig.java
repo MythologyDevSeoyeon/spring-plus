@@ -12,7 +12,8 @@ public class WhiteListConfig {
     public List<String> whiteList(){
         return List.of(
                 "/auth/signup",
-                "/auth/signin"
+                "/auth/signin",
+                "/api/health"
         );
     }
 }

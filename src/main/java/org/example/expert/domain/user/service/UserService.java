@@ -48,4 +48,19 @@ public class UserService {
             throw new InvalidRequestException("새 비밀번호는 8자 이상이어야 하고, 숫자와 대문자를 포함해야 합니다.");
         }
     }
+
+    @Transactional
+    public void updateProfileImage(Long userId, String imgUrl) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new InvalidRequestException("User not found"));
+        user.updateProfileImage(imgUrl);
+    }
+
+    @Transactional
+    public void removeProfileImage(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new InvalidRequestException("User not found"));
+        user.updateProfileImage(null);
+    }
+
 }

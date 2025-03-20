@@ -13,7 +13,7 @@ public class WhiteListConfig {
         return List.of(
                 "/auth/signup",
                 "/auth/signin",
-                "/api/health"
+                "/health"
         );
     }
 }

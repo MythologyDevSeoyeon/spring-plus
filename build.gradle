@@ -52,6 +52,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    // AWS - S3
+    implementation 'software.amazon.awssdk:s3:2.20.30'
+
+    // 헬스 체크
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 
